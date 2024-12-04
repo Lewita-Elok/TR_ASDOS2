@@ -8,7 +8,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') {
     exit();
 }
 
-// Query untuk melihat stok barang
+// Query untuk melihat stok barang (barang yang statusnya Masuk atau Keluar)
 $stok_barang_query = "SELECT * FROM barang WHERE status='Masuk' OR status='Keluar'";
 $stok_barang_result = mysqli_query($conn, $stok_barang_query);
 ?>
@@ -67,6 +67,7 @@ $stok_barang_result = mysqli_query($conn, $stok_barang_query);
                 <tbody>
                     <?php
                     while ($row = mysqli_fetch_assoc($stok_barang_result)) {
+                        // Cek jika statusnya "Masuk" atau "Keluar" dan tampilkan dalam tabel
                         echo "<tr class='hover:bg-gray-200'>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['id_barang']}</td>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['nama_barang']}</td>
