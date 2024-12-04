@@ -154,122 +154,148 @@ $terlaris_result = mysqli_query($conn, $terlaris_query);
             </form>
         </div>
 
-        <!-- Form Kelola Barang -->
-        <div class="bg-white text-dark-gray p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-xl font-semibold mb-4">Kelola Barang</h2>
-            <table class="w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr class="bg-primary-orange text-white">
-                        <th class="border border-gray-300 px-4 py-2">ID</th>
-                        <th class="border border-gray-300 px-4 py-2">Nama Barang</th>
-                        <th class="border border-gray-300 px-4 py-2">Stok</th>
-                        <th class="border border-gray-300 px-4 py-2">Harga</th>
-                        <th class="border border-gray-300 px-4 py-2">Status</th>
-                        <th class="border border-gray-300 px-4 py-2">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $barang_query = "SELECT * FROM barang";
-                    $barang_result = mysqli_query($conn, $barang_query);
-                    while ($row = mysqli_fetch_assoc($barang_result)) {
-                        echo "<tr class='hover:bg-gray-200'>
+        <<!-- Form Kelola Barang -->
+            <div class="bg-white text-dark-gray p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-xl font-semibold mb-4">Kelola Barang</h2>
+                <table class="w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr class="bg-primary-orange text-white">
+                            <th class="border border-gray-300 px-4 py-2">ID</th>
+                            <th class="border border-gray-300 px-4 py-2">Nama Barang</th>
+                            <th class="border border-gray-300 px-4 py-2">Stok</th>
+                            <th class="border border-gray-300 px-4 py-2">Harga</th>
+                            <th class="border border-gray-300 px-4 py-2">Status</th>
+                            <th class="border border-gray-300 px-4 py-2">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $barang_query = "SELECT * FROM barang";
+                        $barang_result = mysqli_query($conn, $barang_query);
+                        while ($row = mysqli_fetch_assoc($barang_result)) {
+                            echo "<tr class='hover:bg-gray-200'>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['id_barang']}</td>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['nama_barang']}</td>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['stok']}</td>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['harga']}</td>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['status']}</td>
-                                <td class='border border-gray-300 px-4 py-2 flex space-x-2'>
-                                    <form method='POST' class='inline'>
+                                <td class='border border-gray-300 px-4 py-2 space-y-2'>
+                                    <form method='POST' class='flex space-x-2'>
                                         <input type='hidden' name='id_barang' value='{$row['id_barang']}'>
-                                        <button type='submit' name='delete_item' class='px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600'>Hapus</button>
+                                        <input type='text' name='nama_barang' value='{$row['nama_barang']}' class='p-1 border border-gray-300 rounded-lg w-full'>
+                                        <input type='number' name='stok' value='{$row['stok']}' class='p-1 border border-gray-300 rounded-lg w-full'>
+                                        <input type='number' name='harga' value='{$row['harga']}' class='p-1 border border-gray-300 rounded-lg w-full'>
+                                        <select name='status' class='p-1 border border-gray-300 rounded-lg w-full'>
+                                            <option value='Masuk' " . ($row['status'] == 'Masuk' ? 'selected' : '') . ">Masuk</option>
+                                            <option value='Keluar' " . ($row['status'] == 'Keluar' ? 'selected' : '') . ">Keluar</option>
+                                        </select>
+                                        <button type='submit' name='edit_item' class='px-4 py-2 bg-primary-orange text-white rounded-lg hover:bg-orange-600'>Edit</button>
+                                    </form>
+                                    <form method='POST' class='flex'>
+                                        <input type='hidden' name='id_barang' value='{$row['id_barang']}'>
+                                        <button type='submit' name='delete_item' class='px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600'>Hapus</button>
                                     </form>
                                 </td>
                             </tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
 
-        <!-- Barang keluar -->
-        <div class="bg-white text-dark-gray p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-xl font-semibold mb-4">Pengurangan Stok Barang (Barang Keluar)</h2>
-            <form method="POST" action="" class="space-y-4">
-                <select name="id_barang" class="w-full p-2 border border-gray-300 rounded-lg">
-                    <?php
-                    // Menampilkan daftar barang
-                    $barang_query = "SELECT * FROM barang";
-                    $barang_result = mysqli_query($conn, $barang_query);
-                    while ($barang = mysqli_fetch_assoc($barang_result)) {
-                        echo "<option value='{$barang['id_barang']}'>{$barang['nama_barang']}</option>";
-                    }
-                    ?>
-                </select>
-                <input type="number" name="jumlah" placeholder="Jumlah Barang" required
-                    class="w-full p-2 border border-gray-300 rounded-lg">
-                <button type="submit" name="process_sale"
-                    class="px-4 py-2 bg-primary-orange text-white rounded-lg hover:bg-orange-600">Proses Barang
-                    Keluar</button>
-            </form>
-        </div>
+            <!-- Form Tambah Pemasok -->
+            <div class="bg-white text-dark-gray p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-xl font-semibold mb-4">Tambah Pemasok</h2>
+                <form method="POST" action="" class="space-y-4">
+                    <input type="text" name="nama_pemasok" placeholder="Nama Pemasok" required
+                        class="w-full p-2 border border-gray-300 rounded-lg">
+                    <input type="text" name="kontak" placeholder="Kontak Pemasok" required
+                        class="w-full p-2 border border-gray-300 rounded-lg">
+                    <button type="submit" name="add_supplier"
+                        class="px-4 py-2 bg-primary-orange text-white rounded-lg hover:bg-orange-600">Tambah
+                        Pemasok</button>
+                </form>
+            </div>
 
-        <!-- Laporan Stok Harian -->
-        <div class="bg-white text-dark-gray p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-xl font-semibold mb-4">Laporan Stok Harian</h2>
-            <table class="w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr class="bg-primary-orange text-white">
-                        <th class="border border-gray-300 px-4 py-2">ID</th>
-                        <th class="border border-gray-300 px-4 py-2">Nama Barang</th>
-                        <th class="border border-gray-300 px-4 py-2">Stok</th>
-                        <th class="border border-gray-300 px-4 py-2">Barang Keluar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    while ($row = mysqli_fetch_assoc($stok_harian_result)) {
-                        $barang_keluar = $row['total_keluar'] ? $row['total_keluar'] : 0;
-                        echo "<tr class='hover:bg-gray-200'>
+
+            <!-- Barang keluar -->
+            <div class="bg-white text-dark-gray p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-xl font-semibold mb-4">Pengurangan Stok Barang (Barang Keluar)</h2>
+                <form method="POST" action="" class="space-y-4">
+                    <select name="id_barang" class="w-full p-2 border border-gray-300 rounded-lg">
+                        <?php
+                        // Menampilkan daftar barang
+                        $barang_query = "SELECT * FROM barang";
+                        $barang_result = mysqli_query($conn, $barang_query);
+                        while ($barang = mysqli_fetch_assoc($barang_result)) {
+                            echo "<option value='{$barang['id_barang']}'>{$barang['nama_barang']}</option>";
+                        }
+                        ?>
+                    </select>
+                    <input type="number" name="jumlah" placeholder="Jumlah Barang" required
+                        class="w-full p-2 border border-gray-300 rounded-lg">
+                    <button type="submit" name="process_sale"
+                        class="px-4 py-2 bg-primary-orange text-white rounded-lg hover:bg-orange-600">Proses Barang
+                        Keluar</button>
+                </form>
+            </div>
+
+            <!-- Laporan Stok Harian -->
+            <div class="bg-white text-dark-gray p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-xl font-semibold mb-4">Laporan Stok Harian</h2>
+                <table class="w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr class="bg-primary-orange text-white">
+                            <th class="border border-gray-300 px-4 py-2">ID</th>
+                            <th class="border border-gray-300 px-4 py-2">Nama Barang</th>
+                            <th class="border border-gray-300 px-4 py-2">Stok</th>
+                            <th class="border border-gray-300 px-4 py-2">Barang Keluar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        while ($row = mysqli_fetch_assoc($stok_harian_result)) {
+                            $barang_keluar = $row['total_keluar'] ? $row['total_keluar'] : 0;
+                            echo "<tr class='hover:bg-gray-200'>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['id_barang']}</td>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['nama_barang']}</td>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['stok']}</td>
                                 <td class='border border-gray-300 px-4 py-2'>{$barang_keluar}</td>
                             </tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
 
-        <!-- Barang Terlaris -->
-        <div class="bg-white text-dark-gray p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-xl font-semibold mb-4">Barang Terlaris</h2>
-            <table class="w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr class="bg-primary-orange text-white">
-                        <th class="border border-gray-300 px-4 py-2">Nama Barang</th>
-                        <th class="border border-gray-300 px-4 py-2">Jumlah Terjual</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    while ($row = mysqli_fetch_assoc($terlaris_result)) {
-                        echo "<tr class='hover:bg-gray-200'>
+            <!-- Barang Terlaris -->
+            <div class="bg-white text-dark-gray p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-xl font-semibold mb-4">Barang Terlaris</h2>
+                <table class="w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr class="bg-primary-orange text-white">
+                            <th class="border border-gray-300 px-4 py-2">Nama Barang</th>
+                            <th class="border border-gray-300 px-4 py-2">Jumlah Terjual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        while ($row = mysqli_fetch_assoc($terlaris_result)) {
+                            echo "<tr class='hover:bg-gray-200'>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['nama_barang']}</td>
                                 <td class='border border-gray-300 px-4 py-2'>{$row['total_terjual']}</td>
                             </tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
 
-        <!-- Tombol Logout -->
-        <button onclick="window.location.href='../logout.php';"
-            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
-            Logout
-        </button>
+            <!-- Tombol Logout -->
+            <button onclick="window.location.href='../logout.php';"
+                class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                Logout
+            </button>
     </div>
 
 </body>
