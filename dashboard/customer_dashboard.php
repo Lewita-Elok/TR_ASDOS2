@@ -95,7 +95,7 @@ $stok_keluar_result = mysqli_query($conn, $stok_keluar_query);
         </div>
 
         <!-- Tombol Logout -->
-        <button onclick="window.location.href='../logout.php';"
+        <button onclick="if (confirm('Apakah Anda yakin ingin logout?')) { window.location.href='../logout.php'; }"
             class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
             Logout
         </button>

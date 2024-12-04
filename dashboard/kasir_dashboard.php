@@ -87,10 +87,11 @@ $barang_result = mysqli_query($conn, $barang_query);
             </table>
         </div>
 
-        <!-- Logout Button -->
-        <button onclick="window.location.href='../logout.php';"
-            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Logout</button>
-
+        <!-- Tombol Logout -->
+        <button onclick="if (confirm('Apakah Anda yakin ingin logout?')) { window.location.href='../logout.php'; }"
+            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+            Logout
+        </button>
     </div>
 
 </body>

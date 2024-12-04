@@ -217,7 +217,6 @@ $terlaris_result = mysqli_query($conn, $terlaris_query);
                 </form>
             </div>
 
-
             <!-- Barang keluar -->
             <div class="bg-white text-dark-gray p-6 rounded-lg shadow-md mb-6">
                 <h2 class="text-xl font-semibold mb-4">Pengurangan Stok Barang (Barang Keluar)</h2>
@@ -292,7 +291,7 @@ $terlaris_result = mysqli_query($conn, $terlaris_query);
             </div>
 
             <!-- Tombol Logout -->
-            <button onclick="window.location.href='../logout.php';"
+            <button onclick="if (confirm('Apakah Anda yakin ingin logout?')) { window.location.href='../logout.php'; }"
                 class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
                 Logout
             </button>
